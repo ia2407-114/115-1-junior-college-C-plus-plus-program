@@ -1,0 +1,6 @@
+﻿  0923-2.cpp
+D:\9.23\Project2\Project2\0923-2.cpp(48,60): warning C4474: 'printf': 傳遞給格式字串的引數太多
+      D:\9.23\Project2\Project2\0923-2.cpp(48,60):
+      預留位置及其參數需要 0 個 variadic 引數，但卻提供了 1 個
+  
+  Project2.vcxproj -> D:\9.23\Project2\x64\Debug\Project2.exe
