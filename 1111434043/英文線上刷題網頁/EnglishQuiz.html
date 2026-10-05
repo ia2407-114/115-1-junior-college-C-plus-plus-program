@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>極速刷題神器 (CPE/英檢單字版)</title>
+    <style>
+        :root {
+            --bg-color: #f4f6f8;
+            --container-bg: #ffffff;
+            --text-main: #2d3748;
+            --text-muted: #718096;
+            --border-color: #e2e8f0;
+            --primary: #4299e1;
+            --primary-hover: #3182ce;
+            --success: #48bb78;
+            --danger: #e53e3e;
+            --btn-text: #ffffff;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a202c;
+            --container-bg: #2d3748;
+            --text-main: #f7fafc;
+            --text-muted: #a0aec0;
+            --border-color: #4a5568;
+            --primary: #63b3ed;
+            --primary-hover: #4299e1;
+            --success: #68d391;
+            --danger: #fc8181;
+            --btn-text: #1a202c;
+        }
+
+        * { box-sizing: border-box; transition: background-color 0.2s, color 0.2s; }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: var(--container-bg);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 { margin: 0; font-size: 24px; }
+
+        button {
+            cursor: pointer;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            padding: 10px 16px;
+            font-size: 16px;
+        }
+
+        .btn-theme {
+            background-color: var(--border-color);
+            color: var(--text-main);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: var(--btn-text);
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn-primary:hover { background-color: var(--primary-hover); }
+
+        .section { display: none; }
+        .section.active { display: block; }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 10px;
+            resize: vertical;
+            font-family: monospace;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .controls select {
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-size: 16px;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            background-color: var(--bg-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        .question-box {
+            font-size: 22px;
+            line-height: 1.6;
+            margin: 30px 0;
+            font-weight: 500;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .option-btn {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            border: 2px solid var(--border-color);
+            text-align: left;
+            padding: 15px;
+            font-size: 18px;
+        }
+
+        .option-btn:hover { border-color: var(--primary); }
+        .option-btn:disabled { cursor: not-allowed; opacity: 0.8; }
+        
+        .option-btn.correct { background-color: var(--success); color: #fff; border-color: var(--success); }
+        .option-btn.wrong { background-color: var(--danger); color: #fff; border-color: var(--danger); }
+
+        .feedback {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .feedback.show { display: block; }
+        .feedback.correct { background-color: rgba(72, 187, 120, 0.2); border-left: 5px solid var(--success); }
+        .feedback.wrong { background-color: rgba(229, 62, 62, 0.2); border-left: 5px solid var(--danger); }
+
+        .feedback h3 { margin: 0 0 10px 0; display: flex; align-items: center; gap: 10px;}
+        .feedback p { margin: 5px 0; font-size: 16px;}
+        .word-highlight { font-weight: bold; color: var(--primary); font-size: 20px;}
+        
+        .sys-msg { color: var(--success); font-size: 14px; margin-top: 10px; display: none; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>極速刷題神器</h1>
+        <button class="btn-theme" id="themeToggle" onclick="toggleTheme()">切換淺色模式</button>
+    </div>
+
+    <!-- 步驟一：題庫匯入區 (僅第一次需要) -->
+    <div id="setupSection" class="section active">
+        <h2>1. 匯入題庫</h2>
+        <p style="color: var(--text-muted); font-size: 14px;">由於這是純前端系統，請將 PDF 或講義內的純文字題庫直接貼在下方（系統會自動解析並永久存在你的瀏覽器中）。如果已經匯入過，可直接點擊「進入測驗」。</p>
+        <textarea id="rawText" placeholder="請將單字題庫文字貼在這裡...
+例如：
+1-1
+•
+implement 實行;實行/用具
+The government implemented new policies last year."></textarea>
+        <button class="btn-primary" onclick="processData()">解析並儲存題庫</button>
+        <div id="setupMsg" class="sys-msg"></div>
+        <hr style="border: 1px solid var(--border-color); margin: 20px 0;">
+        <button class="btn-theme" style="width: 100%;" onclick="showSection('configSection')">已經有題庫了？直接進入設定</button>
+    </div>
+
+    <!-- 步驟二：測驗設定區 -->
+    <div id="configSection" class="section">
+        <h2>2. 選擇測驗範圍</h2>
+        <div class="stats" id="dbStats">正在載入資料庫狀態...</div>
+        <div class="controls">
+            <select id="startUnit"></select>
+            <span style="display:flex; align-items:center;">至</span>
+            <select id="endUnit"></select>
+        </div>
+        <button class="btn-primary" onclick="startQuiz()">開始刷題</button>
+        <button class="btn-theme" style="width: 100%; margin-top: 15px;" onclick="showSection('setupSection')">重新匯入題庫</button>
+        <button class="btn-theme" style="width: 100%; margin-top: 15px; color: var(--danger);" onclick="resetProgress()">清除所有學習紀錄 (重新開始)</button>
+    </div>
+
+    <!-- 步驟三：刷題區 -->
+    <div id="quizSection" class="section">
+        <div class="stats">
+            <span id="statProgress">熟練度進度: 0 / 0</span>
+            <span id="statReview">待複習: 0</span>
+            <span id="statCurrentUnit">範圍: 1-1 ~ 1-1</span>
+        </div>
+        
+        <div class="question-box" id="questionText">載入題目中...</div>
+        
+        <div class="options" id="optionsContainer">
+            <!-- 選項按鈕會動態生成在這裡 -->
+        </div>
+
+        <div id="feedbackBox" class="feedback">
+            <h3 id="feedbackTitle">結果</h3>
+            <p><span class="word-highlight" id="fbWord">Word</span> <span id="fbTranslation">翻譯</span></p>
+            <p style="color: var(--text-muted);" id="fbSentence">完整例句</p>
+            <hr style="border: 1px solid var(--border-color); margin: 15px 0;">
+            <p style="font-size: 14px; color: var(--text-muted);" id="fbOtherOptions">其他選項解釋區</p>
+            <button class="btn-primary" style="margin-top: 15px;" onclick="nextQuestion()">下一題 (Enter)</button>
+        </div>
+        
+        <button class="btn-theme" style="margin-top: 30px;" onclick="showSection('configSection')">結束測驗並返回設定</button>
+    </div>
+</div>
+
+<script>
+    // --- 系統狀態與資料 ---
+    let wordDatabase = [];
+    let userProgress = JSON.parse(localStorage.getItem('vocabularyProgress')) || {};
+    let currentQuizPool = [];
+    let currentQuestion = null;
+    let questionCounter = parseInt(localStorage.getItem('questionCounter')) || 0;
+    
+    // --- 初始化與主題設定 ---
+    function toggleTheme() {
+        const html = document.documentElement;
+        const current = html.getAttribute('data-theme');
+        const next = current === 'dark' ? 'light' : 'dark';
+        html.setAttribute('data-theme', next);
+        document.getElementById('themeToggle').innerText = next === 'dark' ? '切換淺色模式' : '切換深色模式';
+    }
+
+    function showSection(sectionId) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(sectionId).classList.add('active');
+        if(sectionId === 'configSection') updateConfigUI();
+    }
+
+    // --- 資料解析邏輯 (將你貼上的 PDF 內容轉為結構化資料) ---
+    function processData() {
+        const rawText = document.getElementById('rawText').value;
+        if (!rawText.trim()) return alert("請先貼上題庫文字！");
+
+        const lines = rawText.split('\n').map(l => l.trim()).filter(l => l !== '' && l !== '•');
+        const db = [];
+        let currentUnit = '1-1';
+        let currentWord = null;
+
+        for (let i = 0; i < lines.length; i++) {
+            const line = lines[i];
+            
+            // 過濾掉來源標記與頁碼干擾
+            if (line.includes('Easy test') || line.includes('[source:')) continue;
+            
+            // 判斷是否為單元標記 (例如 1-1, 25-7)
+            if (/^\d+-\d+$/.test(line)) {
+                currentUnit = line;
+                continue;
+            }
+
+            // 判斷是否為單字列 (開頭為英文，後面跟著中文解釋)
+            const wordMatch = line.match(/^([a-zA-Z\-]+)\s+(.+)$/);
+            if (wordMatch && !currentWord) {
+                currentWord = {
+                    id: `${currentUnit}_${wordMatch[1]}`, // 唯一識別碼
+                    unit: currentUnit,
+                    word: wordMatch[1],
+                    translation: wordMatch[2],
+                    sentence: ''
+                };
+                continue;
+            }
+
+            // 如果已有單字，則下一行視為例句
+            if (currentWord) {
+                currentWord.sentence = line;
+                db.push(currentWord);
+                currentWord = null;
+            }
+        }
+
+        if (db.length === 0) {
+            return alert("解析失敗，請確認貼上的文字格式是否正確！");
+        }
+
+        // 儲存到 LocalStorage
+        localStorage.setItem('vocabularyDatabase', JSON.stringify(db));
+        wordDatabase = db;
+        
+        const msg = document.getElementById('setupMsg');
+        msg.innerText = `成功解析並儲存 ${db.length} 個單字！`;
+        msg.style.display = 'block';
+        
+        setTimeout(() => showSection('configSection'), 1000);
+    }
+
+    // --- 載入資料庫與設定介面 ---
+    function loadDatabase() {
+        const savedDB = localStorage.getItem('vocabularyDatabase');
+        if (savedDB) {
+            wordDatabase = JSON.parse(savedDB);
+            showSection('configSection');
+        } else {
+            showSection('setupSection');
+        }
+    }
+
+    function updateConfigUI() {
+        if(wordDatabase.length === 0) return;
+        
+        // 擷取所有單元並排序 (依照章節-小節)
+        const units = [...new Set(wordDatabase.map(w => w.unit))].sort((a, b) => {
+            const [a1, a2] = a.split('-').map(Number);
+            const [b1, b2] = b.split('-').map(Number);
+            if (a1 !== b1) return a1 - b1;
+            return a2 - b2;
+        });
+
+        const startSel = document.getElementById('startUnit');
+        const endSel = document.getElementById('endUnit');
+        
+        startSel.innerHTML = '';
+        endSel.innerHTML = '';
+        
+        units.forEach(u => {
+            startSel.add(new Option(u, u));
+            endSel.add(new Option(u, u));
+        });
+        
+        endSel.selectedIndex = units.length - 1; // 預設結束選到最後一個
+
+        // 統計資訊
+        const total = wordDatabase.length;
+        const mastered = Object.values(userProgress).filter(p => p.score >= 3).length;
+        document.getElementById('dbStats').innerText = `總字數: ${total} | 已熟練 (答對3次以上): ${mastered}`;
+    }
+
+    // --- 測驗核心邏輯 (間隔重複演算法) ---
+    function startQuiz() {
+        const startU = document.getElementById('startUnit').value;
+        const endU = document.getElementById('endUnit').value;
+        
+        // 解析選擇的範圍
+        const parseUnit = u => { const parts = u.split('-'); return parseInt(parts[0]) * 100 + parseInt(parts[1]); };
+        const startVal = parseUnit(startU);
+        const endVal = parseUnit(endU);
+
+        currentQuizPool = wordDatabase.filter(w => {
+            const val = parseUnit(w.unit);
+            return val >= Math.min(startVal, endVal) && val <= Math.max(startVal, endVal);
+        });
+
+        if (currentQuizPool.length < 3) {
+            return alert("選擇範圍內的單字太少 (至少需要3個單字來產生選項)！");
+        }
+
+        document.getElementById('statCurrentUnit').innerText = `範圍: ${startU} ~ ${endU}`;
+        showSection('quizSection');
+        nextQuestion();
+    }
+
+    function getNextWord() {
+        // 1. 優先挑選 "到期需要複習" 且 "尚未熟練" 的單字
+        let dueWords = currentQuizPool.filter(w => {
+            const prog = userProgress[w.id];
+            if (!prog) return false;
+            return prog.score < 3 && prog.nextReview <= questionCounter;
+        });
+
+        // 2. 如果沒有急需複習的，挑選 "完全沒考過" 的單字
+        if (dueWords.length === 0) {
+            dueWords = currentQuizPool.filter(w => !userProgress[w.id]);
+        }
+
+        // 3. 如果範圍內都考過且都還沒到期，就挑選 "分數最低" 的單字強制複習
+        if (dueWords.length === 0) {
+            dueWords = currentQuizPool.filter(w => (userProgress[w.id]?.score || 0) < 3);
+            if(dueWords.length === 0) dueWords = currentQuizPool; // 範圍內全部都熟練了，就隨機抽
+        }
+
+        return dueWords[Math.floor(Math.random() * dueWords.length)];
+    }
+
+    function createBlankSentence(sentence, word) {
+        // 運用正則表達式，容錯處理動詞變化/複數型態 (例如 implement -> implemented)
+        const regex = new RegExp(`\\b${word}[a-z]*\\b`, 'gi');
+        if (sentence.match(regex)) {
+            return sentence.replace(regex, '__________');
+        } else {
+            return sentence.replace(word, '__________'); // 容錯機制
+        }
+    }
+
+    function nextQuestion() {
+        document.getElementById('feedbackBox').classList.remove('show');
+        document.getElementById('optionsContainer').innerHTML = '';
+        questionCounter++;
+        localStorage.setItem('questionCounter', questionCounter);
+
+        currentQuestion = getNextWord();
+        const sentenceBlanked = createBlankSentence(currentQuestion.sentence, currentQuestion.word);
+        document.getElementById('questionText').innerText = sentenceBlanked;
+
+        // 生成另外兩個錯誤選項
+        let options = new Set([currentQuestion]);
+        while(options.size < 3) {
+            const randomIdx = Math.floor(Math.random() * currentQuizPool.length);
+            options.add(currentQuizPool[randomIdx]);
+        }
+        
+        // 打亂順序
+        const shuffledOptions = Array.from(options).sort(() => Math.random() - 0.5);
+
+        const container = document.getElementById('optionsContainer');
+        shuffledOptions.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.innerText = opt.word;
+            btn.onclick = () => handleAnswer(opt, shuffledOptions, btn);
+            container.appendChild(btn);
+        });
+
+        updateQuizStats();
+    }
+
+    function handleAnswer(selectedOpt, allOptions, selectedBtn) {
+        // 禁用所有按鈕
+        const btns = document.querySelectorAll('.option-btn');
+        btns.forEach(b => {
+            b.disabled = true;
+            if (b.innerText === currentQuestion.word) b.classList.add('correct');
+        });
+
+        const isCorrect = selectedOpt.id === currentQuestion.id;
+        if (!isCorrect) selectedBtn.classList.add('wrong');
+
+        // 更新學習進度與遺忘曲線演算法
+        if (!userProgress[currentQuestion.id]) {
+            userProgress[currentQuestion.id] = { score: 0, testedCount: 0, nextReview: 0 };
+        }
+        
+        let prog = userProgress[currentQuestion.id];
+        prog.testedCount++;
+
+        if (isCorrect) {
+            prog.score++;
+            // 答對，依據當前分數推遲複習時間 (分數越高，越晚出現)
+            prog.nextReview = questionCounter + (prog.score * 5); 
+        } else {
+            prog.score = 0;
+            // 答錯，2題之後立刻強制複習
+            prog.nextReview = questionCounter + 2;
+        }
+
+        localStorage.setItem('vocabularyProgress', JSON.stringify(userProgress));
+        showFeedback(isCorrect, allOptions);
+        updateQuizStats();
+    }
+
+    function showFeedback(isCorrect, allOptions) {
+        const box = document.getElementById('feedbackBox');
+        box.className = 'feedback show ' + (isCorrect ? 'correct' : 'wrong');
+        
+        document.getElementById('feedbackTitle').innerHTML = isCorrect ? '✔️ 答對了！' : '❌ 答錯了！正確答案是：';
+        document.getElementById('fbWord').innerText = currentQuestion.word;
+        document.getElementById('fbTranslation').innerText = `(${currentQuestion.translation})`;
+        
+        // 突顯原句中的單字
+        const regex = new RegExp(`\\b${currentQuestion.word}[a-z]*\\b`, 'gi');
+        const highlightedSentence = currentQuestion.sentence.replace(regex, match => `<u><b>${match}</b></u>`);
+        document.getElementById('fbSentence').innerHTML = highlightedSentence;
+
+        // 顯示其他選項的意思，幫助排除法記憶
+        const otherOpts = allOptions.filter(o => o.id !== currentQuestion.id);
+        const otherHtml = otherOpts.map(o => `• <b>${o.word}</b> : ${o.translation}`).join('<br>');
+        document.getElementById('fbOtherOptions').innerHTML = `<b>【選項解析】</b><br>${otherHtml}`;
+    }
+
+    function updateQuizStats() {
+        const poolCount = currentQuizPool.length;
+        let mastered = 0;
+        let needReview = 0;
+
+        currentQuizPool.forEach(w => {
+            const p = userProgress[w.id];
+            if (p) {
+                if (p.score >= 3) mastered++;
+                else if (p.nextReview <= questionCounter) needReview++;
+            } else {
+                needReview++; // 沒做過的也算待學習
+            }
+        });
+
+        document.getElementById('statProgress').innerText = `熟練度: ${mastered} / ${poolCount}`;
+        document.getElementById('statReview').innerText = `待學習/複習: ${needReview}`;
+    }
+
+    function resetProgress() {
+        if(confirm("確定要清除所有的作答紀錄嗎？這將會把所有單字的熟練度歸零。")) {
+            localStorage.removeItem('vocabularyProgress');
+            localStorage.removeItem('questionCounter');
+            userProgress = {};
+            questionCounter = 0;
+            updateConfigUI();
+            alert("已清除學習紀錄！");
+        }
+    }
+
+    // 支援 Enter 鍵進入下一題
+    document.addEventListener('keypress', function (e) {
+        if (e.key === 'Enter') {
+            const feedbackBox = document.getElementById('feedbackBox');
+            if (feedbackBox.classList.contains('show')) {
+                nextQuestion();
+            }
+        }
+    });
+
+    // 啟動執行
+    loadDatabase();
+</script>
+
+</body>
+</html>
