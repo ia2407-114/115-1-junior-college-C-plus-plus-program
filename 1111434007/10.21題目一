@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int dise(int c, int seed);
+int max(int a, int b);
+
+int main(void)
+{
+    int c = 2;
+    int a, b, result;
+
+    a = dise(c, (int)time(NULL));
+    b = dise(c, (int)time(NULL) + 1);
+    printf("總點數1 = %d\n", a);
+    printf("總點數2 = %d\n", b);
+
+    result = max(a, b);
+    printf("最大值 = %d\n", result);
+
+    return 0;
+}
+
+int dise(int c, int seed)
+{
+    int sum = 0;
+    srand((unsigned int)seed);
+
+    for (int i = 0; i < c; i++)
+        sum = sum + rand() % 6 + 1;
+
+    return sum;
+}
+
+int max(int a, int b)
+{
+    if (a > b)
+        return a;
+    else
+        return b;
+}
