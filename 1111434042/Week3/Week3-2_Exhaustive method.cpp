@@ -5,112 +5,112 @@ int main()
 {
     int a, b, c, d;
 
-    printf("½Ð¿é¤J4­Ó¾ã¼Æ¡G\n");
-    printf("²Ä¤@­Ó¾ã¼Æ====>");
+    printf("è«‹è¼¸å…¥4å€‹æ•´æ•¸ï¼š\n");
+    printf("ç¬¬ä¸€å€‹æ•´æ•¸====>");
     scanf_s("%d", &a);
 
-    printf("²Ä¤G­Ó¾ã¼Æ====>");
+    printf("ç¬¬äºŒå€‹æ•´æ•¸====>");
     scanf_s("%d", &b);
 
-    printf("²Ä¤T­Ó¾ã¼Æ====>");
+    printf("ç¬¬ä¸‰å€‹æ•´æ•¸====>");
     scanf_s("%d", &c);
 
-    printf("²Ä¥|­Ó¾ã¼Æ====>");
+    printf("ç¬¬å››å€‹æ•´æ•¸====>");
     scanf_s("%d", &d);
 
-    printf("\n¼Æ­È¥Ñ¤j¨ì¤p±Æ§Çµ²ªG¬°¡G\n");
+    printf("\næ•¸å€¼ç”±å¤§åˆ°å°æŽ’åºçµæžœç‚ºï¼š\n");
 
 
-    // a ³Ì¤j
+    // a æœ€å¤§
     if (a > b && a > c && a > d) {
-        // b ²Ä¤G¤j
+        // b ç¬¬äºŒå¤§
         if (b > c && b > d) {
-            // c ²Ä¤T¤j
+            // c ç¬¬ä¸‰å¤§
             if (c > d) printf("%d > %d > %d > %d\n", a, b, c, d);
-            // d ²Ä¤T¤j
+            // d ç¬¬ä¸‰å¤§
             else printf("%d > %d > %d > %d\n", a, b, d, c);
         }
-        // c ²Ä¤G¤j
+        // c ç¬¬äºŒå¤§
         else if (c > b && c > d) {
-            // b ²Ä¤T¤j
+            // b ç¬¬ä¸‰å¤§
             if (b > d) printf("%d > %d > %d > %d\n", a, c, b, d);
-            // d ²Ä¤T¤j
+            // d ç¬¬ä¸‰å¤§
             else printf("%d > %d > %d > %d\n", a, c, d, b);
         }
-        else { // d ²Ä¤G¤j
+        else { // d ç¬¬äºŒå¤§
             if (b > c) printf("%d > %d > %d > %d\n", a, d, b, c);
             else printf("%d > %d > %d > %d\n", a, d, c, b);
         }
     }
 
-    // b ³Ì¤j
+    // b æœ€å¤§
     else if (b > a && b > c && b > d) {
-        // a ²Ä¤G¤j
+        // a ç¬¬äºŒå¤§
         if (a > c && a > d) {
-            // c ²Ä¤T¤j
+            // c ç¬¬ä¸‰å¤§
             if (c > d) printf("%d > %d > %d > %d\n", b, a, c, d);
-            // d ²Ä¤T¤j
+            // d ç¬¬ä¸‰å¤§
             else printf("%d > %d > %d > %d\n", b, a, d, c);
         }
-        // c ²Ä¤G¤j
+        // c ç¬¬äºŒå¤§
         else if (c > a && c > d) {
-            // a ²Ä¤T¤j
+            // a ç¬¬ä¸‰å¤§
             if (a > d) printf("%d > %d > %d > %d\n", b, c, a, d);
-            // d ²Ä¤T¤j
+            // d ç¬¬ä¸‰å¤§
             else printf("%d > %d > %d > %d\n", b, c, d, a);
         }
-        // d ¬°²Ä¤G¤j
+        // d ç‚ºç¬¬äºŒå¤§
         else { 
-            // a ²Ä¤T¤j
+            // a ç¬¬ä¸‰å¤§
             if (a > c) printf("%d > %d > %d > %d\n", b, d, a, c);
-            // c ²Ä¤T¤j
+            // c ç¬¬ä¸‰å¤§
             else printf("%d > %d > %d > %d\n", b, d, c, a);
         }
     }
-    // c ³Ì¤j
+    // c æœ€å¤§
     else if (c > a && c > b && c > d) {
-        // a ²Ä¤G¤j
+        // a ç¬¬äºŒå¤§
         if (a > b && a > d) {
-            // b ²Ä¤T¤j
+            // b ç¬¬ä¸‰å¤§
             if (b > d) printf("%d > %d > %d > %d\n", c, a, b, d);
-            // d ²Ä¤T¤j
+            // d ç¬¬ä¸‰å¤§
             else printf("%d > %d > %d > %d\n", c, a, d, b);
         }
-        // b ²Ä¤G¤j
+        // b ç¬¬äºŒå¤§
         else if (b > a && b > d) {
-            // a ²Ä¤T¤j
+            // a ç¬¬ä¸‰å¤§
             if (a > d) printf("%d > %d > %d > %d\n", c, b, a, d);
-            // b ²Ä¤T¤j
+            // b ç¬¬ä¸‰å¤§
             else printf("%d > %d > %d > %d\n", c, b, d, a);
         }
-        else { // d ²Ä¤G¤j
-            // a ²Ä¤T¤j
+        else { // d ç¬¬äºŒå¤§
+            // a ç¬¬ä¸‰å¤§
             if (a > b) printf("%d > %d > %d > %d\n", c, d, a, b);
-            // b ²Ä¤T¤j
+            // b ç¬¬ä¸‰å¤§
             else printf("%d > %d > %d > %d\n", c, d, b, a);
         }
     }
-    // d ³Ì¤j
+    // d æœ€å¤§
     else {
-        // a ²Ä¤G¤j
+        // a ç¬¬äºŒå¤§
         if (a > b && a > c) {
-            // b ²Ä¤T¤j
+            // b ç¬¬ä¸‰å¤§
             if (b > c) printf("%d > %d > %d > %d\n", d, a, b, c);
-            // c ²Ä¤T¤j
+            // c ç¬¬ä¸‰å¤§
             else printf("%d > %d > %d > %d\n", d, a, c, b);
         }
-        // b ²Ä¤G¤j
+        // b ç¬¬äºŒå¤§
         else if (b > a && b > c) {
-            // a ²Ä¤T¤j
+            // a ç¬¬ä¸‰å¤§
             if (a > c) printf("%d > %d > %d > %d\n", d, b, a, c);
-            // c ²Ä¤T¤j
+            // c ç¬¬ä¸‰å¤§
             else printf("%d > %d > %d > %d\n", d, b, c, a);
         }
-        // c ²Ä¤G¤j
+        // c ç¬¬äºŒå¤§
         else { 
-            // a ²Ä¤T¤j
+            // a ç¬¬ä¸‰å¤§
             if (a > b) printf("%d > %d > %d > %d\n", d, c, a, b);
-            // b ²Ä¤T¤j
+            // b ç¬¬ä¸‰å¤§
             else printf("%d > %d > %d > %d\n", d, c, b, a);
         }
     }
