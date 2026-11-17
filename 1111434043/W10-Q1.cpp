@@ -1,9 +1,9 @@
 #include <stdio.h>
 
-//�D��1. �إ�1�Ӥ@����ư}�Cid, �H��3�Ӥ@���B�I�ư}�Cmath, english �Pavg�A
-// �z�L��L��J�ǥͪ��Ǹ��B�ƾǦ��Z�B�^�妨�Z�ä��O��J�}�Cid, math, english ���Aid��J999����A
-// �A�p��X�C�Ӿǥͪ��������Z��J�}�Cavg����������m�A
-// �̫�L�X�u�㪺�Ǹ��B�ƾǡB�^��B�������Z�������C
+//題目1. 建立1個一維整數陣列id, 以及3個一維浮點數陣列math, english 與avg，
+// 透過鍵盤輸入學生的學號、數學成績、英文成績並分別放入陣列id, math, english 中，id輸入999停止，
+// 再計算出每個學生的平均成績放入陣列avg內對應的位置，
+// 最後印出工整的學號、數學、英文、平均成績的報表。
 
 int main() {
 	int id[50];
@@ -11,7 +11,7 @@ int main() {
 	double english[50];
 	double avg[50];
 	int tmp = 0;
-	printf("��J�Ǹ��B�ƾǡB�^��");
+	printf("輸入學號、數學、英文");
 	for (int i = 0;i <= 50;i++) {
 		scanf_s("%d",&id[i]);
 		if (id[i] == 999) {
@@ -22,9 +22,9 @@ int main() {
 		scanf_s("%lf",&english[i]);
 		avg[i] = (math[i] + english[i]) / 2;
 	}
-	printf("�ǥͪ��Ǹ��B�ƾǦ��Z�B�^�妨�Z�M�W�����O��:\n");
+	printf("學生的學號、數學成績、英文成績和頻均分別為:\n");
 	for (int j = 0;j < tmp;j++) {
-		printf("%d\t%f\t%f\t%f\t%f\n",id[j],math[j],english[j],avg[j]);
+		printf("%d\t%lf\t%lf\t%lf\n",id[j],math[j],english[j],avg[j]);
 	}
 }
 
