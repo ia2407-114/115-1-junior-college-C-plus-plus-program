@@ -1,0 +1,76 @@
+#pragma once
+#include<stdio.h>
+#define ColLen 3
+#define RowLen 10
+void printData(int data[][ColLen], int len);
+void array_sort(int data[][ColLen], int dataLen, int orderBy, bool flag);
+void dataSwap(int pa[ColLen], int pb[ColLen], int len);
+void Q3() {
+	int data[RowLen][ColLen] = {
+		{3,81,78},
+		{9,5,91},
+		{8,94,86},
+		{4,5,71},
+		{10,5,39},
+		{21,23,45},
+		{22,57,43},
+		{7,89,81},
+		{1,100,61},
+		{31,99,100},
+	};
+
+
+	printf("==原始資料==\n");
+	printData(data,RowLen);
+	int userOrderby = 0;
+	int userOrderflag = 0;
+	printf("你要根據誰排序(id math eng 0~2)");
+	scanf_s("%d", &userOrderby);
+	printf("你要由小到大還是由大到小(1 or 0)");
+	scanf_s("%d", &userOrderflag);
+	array_sort(data, RowLen, userOrderby, userOrderflag);
+	printf("==結果==\n");
+	printData(data, RowLen);
+
+	
+
+}
+void printData(int data[][ColLen],int len) {
+	printf("ID\t數學\t英文\n");
+	for (int i = 0; i < len; i++)
+	{
+		for (int j = 0; j < ColLen; j++)
+		{
+			printf("%d\t", data[i][j]);
+		}
+		puts("");
+	}
+}
+void array_sort(int data[][ColLen],int dataLen,int orderBy,bool flag) {
+	bool isSwap = true;
+	while (isSwap) {
+		isSwap = false;
+		for (size_t i = 0; i < dataLen - 1; ++i) {
+			bool cmp = flag ? 
+				data[i][orderBy] > data[i + 1][orderBy]:
+				data[i][orderBy] < data[i + 1][orderBy];
+			if (cmp) {
+				isSwap = true;
+				dataSwap(data[i], data[i + 1],ColLen);
+			}
+		}
+	}
+}
+void dataSwap(int pa[ColLen], int pb[ColLen],int len) {
+	for (int i = 0; i < len; i++)
+	{
+		int tmp = pa[i];
+		pa[i] = pb[i];
+		pb[i] = tmp;
+	}
+
+}
+
+
+
+
