@@ -28,7 +28,7 @@ int sort_array(int s[10][3], int number, int t) {
     
     
     for (int i = 0; i < n; ++i) {
-        for (int j = 0; j < n - i;++j) {
+        for (int j = 0; j < n - i-1;++j) {
             if (t == 0) {
                 //大盜小
                 if (s[j][0] < s[j + 1][0]) {
