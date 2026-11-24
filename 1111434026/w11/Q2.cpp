@@ -17,7 +17,7 @@ int main(void)
         {10, 78, 80}
     };
     for (int i = 0; i < 10; i++) {
-        printf("%-10d %-10d %-10d\n", students[i][0], students[i][1], students[i][2]);
+        printf("%10d %10d %10d\n", students[i][0], students[i][1], students[i][2]);
     }
 
     int targetId;
@@ -29,8 +29,7 @@ int main(void)
         printf("找到\n");
         for (int i = 0; i < 10; i++) {
             if (students[i][0] == targetId) {
-                printf("%-10d %-10d %-10d\n", students[i][0], students[i][1], students[i][2]);
-                break;
+                printf("%10d %10d %10d\n", students[i][0], students[i][1], students[i][2]);
             }
         }
     }
@@ -40,11 +39,11 @@ int main(void)
     return 0;
 }
 
-int linear_search(int b[10][3], int size, int target){
+int linear_search(int b[10][3], int size, int target) {
     for (int i = 0; i < size; i++) {
         if (b[i][0] == target) {
-            return 1;       
+            return 1;
         }
     }
-    return 0; 
+    return 0;
 }
