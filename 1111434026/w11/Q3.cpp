@@ -1,5 +1,5 @@
 #include<stdio.h>
-int sort_array(int s[10][3], int number,int t);
+void sort_array(int s[10][3], int number,int t);
 #define n 10
 int main(){
     int students[n][3] = {
@@ -24,7 +24,7 @@ int main(){
 
 	return 0;
 }
-int sort_array(int s[10][3], int number, int t) {
+void sort_array(int s[10][3], int number, int t) {
     
     
     for (int i = 0; i < n; ++i) {
@@ -68,5 +68,4 @@ int sort_array(int s[10][3], int number, int t) {
     for (int i = 0; i < n; ++i) {
         printf_s("%10d %10d %10d\n", s[i][0], s[i][1], s[i][2]);
     }
-    return 0;
 }
