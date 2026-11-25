@@ -1,0 +1,36 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
+int max(int a, int b);
+int dise(int c, int seed);
+int main()
+{
+	srand(time(NULL));
+	int c = 2;
+	int seed1 = rand();
+	int seed2 = rand();
+	
+	printf("最大值%d", max(dise(c, seed1), dise(c, seed2)));	
+	
+}
+int dise(int c, int seed){
+	int total = 0;
+	int sum = 0;
+	srand(seed);
+	for (int x = 1; x <= 2; x++) {
+		sum= (1 + rand() % 6);
+		printf("第%d位投骰子%d\n",x, sum);
+		total = total + sum;
+	}
+	
+	return total;
+}
+int max(int a, int b) {
+	if (a > b) {
+		return a;
+	}
+	else{
+		return b;
+	}
+}
+
