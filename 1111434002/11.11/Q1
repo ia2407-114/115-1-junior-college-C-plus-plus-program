@@ -1,0 +1,22 @@
+#include<stdio.h>
+int main(void)
+{
+	int id[50];
+	float math[50], english[50], avg[50];
+	int count = 0;
+	for (int i = 0; i < 50; i++)
+	{
+		printf("請輸入學號、數學、英文\n");
+		scanf_s("%d %f %f", &id[i],&math[i], &english[i]);
+		if (id[i] == 999)		
+			break;
+		avg[i] = (math[i] + english[i]) / 2.0f;
+		count++;
+	}
+	for (int i = 0; i < count; i++)
+	{
+		
+		printf("學號%d：\n數學成績為%f\n英文成績為%f\n平均成績為%f\n", id[i], math[i], english[i], avg[i]);
+	}
+	return 0;
+}
