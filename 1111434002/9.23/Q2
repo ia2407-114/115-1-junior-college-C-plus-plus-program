@@ -1,0 +1,21 @@
+#include <stdio.h>
+int main(void)
+{
+	int a, b, c, d, num;
+	printf("請輸入四個數\n");
+	scanf_s("%d %d %d %d", &a, &b, &c, &d);
+	if (a < b)
+	{num = a;a = b;b = num;}
+	else if (a < c)
+	{num = a; a = c; c = num;}
+	else if (a < d)
+	{num = a; a = d; d = num;}
+	else if (b < c)
+	{num = b; b = c; c = num;}
+	else if (b < d)
+	{num = b; b = d; d = num;}
+	else
+	{num = c; c = d; d = num;}
+	printf("%d > %d > %d > %d\n", a, b, c, d);
+	return 0;
+}
