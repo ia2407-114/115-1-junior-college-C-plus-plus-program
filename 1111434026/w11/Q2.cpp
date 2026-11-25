@@ -16,6 +16,7 @@ int main(void)
         {9, 82, 88},
         {10, 78, 80}
     };
+    printf("%10s %10s %10s\n", "學號", "數學", "英文");
     for (int i = 0; i < 10; i++) {
         printf("%10d %10d %10d\n", students[i][0], students[i][1], students[i][2]);
     }
