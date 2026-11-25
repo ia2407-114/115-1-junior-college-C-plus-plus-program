@@ -1,0 +1,31 @@
+#include<stdio.h>
+int main(void)
+{
+	int score=0;
+	float sum=0;
+	int count = 0;
+	float avg;
+	printf("請輸入同學成績：\n");
+	scanf_s("%d", &score);
+	while (score >= 0)
+	{
+		printf("請輸入同學成績：\n");
+		scanf_s("%d", &score);
+		if (score > 0)
+		{
+			sum = sum + score;
+			count = count + 1;
+		}
+	}
+	if (count > 0)
+	{
+		avg = (float)sum / count;
+		printf("全班平均成績：%f\n", avg);	
+	}
+	else 
+	{		
+		printf("全班平均成績：0");
+	}
+		
+	return 0;
+}
