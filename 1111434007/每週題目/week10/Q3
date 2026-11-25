@@ -1,0 +1,78 @@
+#include <stdio.h>
+#define ROWS 10
+#define COLS 3
+
+void sort_array(int data[][COLS], int len, int flag);
+
+int main(void)
+{
+    int students[ROWS][COLS] = {
+        {5, 78, 82},
+        {2, 72, 68},
+        {9, 88, 85},
+        {1, 85, 90},
+        {7, 66, 70},
+        {3, 95, 88},
+        {10, 73, 80},
+        {4, 60, 75},
+        {8, 84, 79},
+        {6, 91, 94}
+    };
+
+    int flag;
+
+    puts("==========================================");
+    puts("           原始學生成績資料表");
+    puts("==========================================");
+    printf("%8s %8s %8s\n", "學號", "數學", "英文");
+    puts("------------------------------------------");
+    for (int i = 0; i < ROWS; ++i) {
+        printf("%8d %8d %8d\n", students[i][0], students[i][1], students[i][2]);
+    }
+    puts("==========================================\n");
+
+    printf("請輸入排序方式 (0: 依學號由大到小, 1: 依學號由小到大): ");
+    scanf_s("%d", &flag);
+
+    sort_array(students, ROWS, flag);
+
+    return 0;
+}
+
+
+void sort_array(int data[][COLS], int len, int flag)
+{
+    if (flag == 0 || flag == 1) {
+        for (int pass = 1; pass < len; ++pass) {
+            for (int i = 0; i < len - 1; ++i) {
+                if ((flag == 0 && data[i][0] < data[i + 1][0]) ||
+                    (flag == 1 && data[i][0] > data[i + 1][0])) {
+
+                    for (int col = 0; col < COLS; ++col) {
+                        int hold = data[i][col];
+                        data[i][col] = data[i + 1][col];
+                        data[i + 1][col] = hold;
+                    }
+                }
+            }
+        }
+    }
+
+    puts("\n==========================================");
+    if (flag == 0) {
+        puts("     排序後學生成績表 (依學號由大到小)");
+    }
+    else if (flag == 1) {
+        puts("     排序後學生成績表 (依學號由小到大)");
+    }
+    else {
+        puts("     旗標輸入錯誤！維持原始資料順序");
+    }
+    puts("==========================================");
+    printf("%8s %8s %8s\n", "學號", "數學", "英文");
+    puts("------------------------------------------");
+    for (int i = 0; i < len; ++i) {
+        printf("%8d %8d %8d\n", data[i][0], data[i][1], data[i][2]);
+    }
+    puts("==========================================");
+}

@@ -1,0 +1,64 @@
+#include <stdio.h>
+#define SIZE 10
+
+void sort(int[], int, int);
+
+int main(void)
+{
+    int a[SIZE];
+    int flag;
+
+    printf("輸入10筆整數資料:\n");
+    for (int i = 0; i < SIZE; i++)
+    {
+        scanf_s("%d", &a[i]); 
+    }
+
+    puts("\n原始排列:");
+    for (size_t i = 0; i < SIZE; ++i) {
+        printf("%4d", a[i]);
+    }
+    puts("\n");
+
+   
+    printf("請輸入排序方式 (0:由大到小, 1:由小到大): ");
+    scanf_s("%d", &flag);
+
+    sort(a, SIZE, flag);
+
+    return 0;
+}
+
+void sort(int data[], int len, int flag)
+{
+    
+    if (flag == 0 || flag == 1) {
+        for (int pass = 1; pass < len; ++pass) {
+
+            for (int i = 0; i < len - 1; ++i) {
+
+                if (data[i] < data[i + 1]) {
+                    int hold = data[i];
+                    data[i] = data[i + 1];
+                    data[i + 1] = hold;
+                }
+            }
+        }
+    }
+
+    puts("\n");
+    if (flag == 0) {
+        puts(" 由大到小:");
+    }
+    else if (flag == 1) {
+        puts(" 由小到大:");
+    }
+    else {
+        puts("旗標輸入錯誤，維持原始排列:");
+    }
+
+    for (int i = 0; i < len; ++i) {
+        printf("%4d", data[i]);
+    }
+    puts("\n");
+}
