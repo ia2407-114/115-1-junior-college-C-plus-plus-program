@@ -1,0 +1,81 @@
+# include<stdio.h>
+#define STU 10 
+#define SCORE 3  
+void sort_array(int students[][SCORE], int n, int flag);
+int main(void)
+{
+    int flag;
+    int students[STU][SCORE] =
+    {
+        {8, 91, 94},
+        {10, 83, 86},
+        {3, 95, 88},
+        {6, 55, 64},
+        {5, 88, 92},
+        {7, 79, 81},
+        {1, 85, 90},
+        {9, 67, 70},
+        {4, 60, 75},
+        {2, 72, 68},
+        
+    };
+    printf("學號/數學/英文\n");
+    for (int i = 0; i < STU; i++)
+    {
+        printf("%d / %d / %d\n", students[i][0], students[i][1], students[i][2]);
+    }
+    printf("請輸入旗標0：由大到小、1：由小到大\n");
+    scanf_s("%d", &flag);
+    sort_array(students, STU, flag);
+    return 0;
+}
+void sort_array(int students[][SCORE], int n, int flag)
+{
+    int temp;
+    for (int i = 0; i < n; i++)
+    {
+        for (int j = 0; j < n - 1; j++)
+        {
+            if (flag == 0)
+            {
+                if (students[j][0] < students[j + 1][0])
+                {
+                    temp = students[j + 1][0];
+                    students[j + 1][0] = students[j][0];
+                    students[j][0] = temp;
+
+                    temp = students[j + 1][1];
+                    students[j + 1][1] = students[j][1];
+                    students[j][1] = temp;
+
+                    temp = students[j + 1][2];
+                    students[j + 1][2] = students[j][2];
+                    students[j][2] = temp;
+                }
+            }
+            else if (flag == 1)
+            {
+                if (students[j][0] > students[j + 1][0])
+                {
+                    temp = students[j][0];
+                    students[j][0] = students[j + 1][0];
+                    students[j + 1][0] = temp;
+
+                    temp = students[j][1];
+                    students[j][1] = students[j + 1][1];
+                    students[j + 1][1] = temp;
+
+                    temp = students[j][2];
+                    students[j][2] = students[j + 1][2];
+                    students[j + 1][2] = temp;
+                }
+            }
+        }
+
+    }
+    printf("排序後結果：\n");
+    for (int i = 0; i < n; i++)
+    {
+        printf("%d / %d / %d\n", students[i][0], students[i][1], students[i][2]);
+    }
+}
