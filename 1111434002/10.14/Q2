@@ -1,0 +1,32 @@
+#include<stdio.h>
+double calculate(int n)
+{
+	double sum = 0.0;
+	double son;
+	double math;
+	for (int i = 1; i <= n; i++)
+	{
+		son = 2.0 * i - 1.0;
+		math = 1.0 / son;
+		if (i % 2 != 0)
+		{
+			sum = sum + math;
+		}			
+		else
+		{
+			sum = sum - math;
+		}	
+	}
+	return 4.0 * sum;
+}
+
+int main(void)
+{
+	int n;
+	printf("請輸入項數n：\n");
+	scanf_s("%d",& n);
+	double ans = calculate(n);
+	printf("展開 %d 項計算出的pi近似值為：%lf",n,ans);
+	return 0;
+}
+
