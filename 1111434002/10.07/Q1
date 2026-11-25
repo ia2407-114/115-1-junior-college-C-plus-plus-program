@@ -1,0 +1,18 @@
+#include<stdio.h>
+#include<math.h>
+int main(void)
+{
+	double money, rate, goal, sum;
+	int year = 0;
+	printf("請輸入本金、利息、存款目標：\n");
+	scanf_s("%lf %lf %lf", &money, &rate, &goal);
+	sum = money;
+	while (sum <= goal)
+	{
+		year++;		
+		sum = money*pow (1 + rate,year);
+		printf("第%d年本利合為：%lf\n", year, sum);
+	}
+	printf("\n第%d年後可以達成目標", year);
+	return 0;
+}
