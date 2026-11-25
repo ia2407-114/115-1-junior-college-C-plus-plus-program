@@ -1,0 +1,43 @@
+#include<stdio.h>
+int main(void)
+{
+	int score;
+	int numA=0,numB=0,numC=0,numD=0,numF=0;
+	printf("請輸入各種等第(不分大小寫)==\n");	
+	while ((score=getchar()) != EOF)
+	{		
+		switch (score)
+		{
+			case 'a':
+			case 'A':
+				numA++;
+				break;
+			case'b':
+			case'B':
+				numB++;
+				break;
+			case'c':
+			case'C':
+				numC++;
+				break;
+			case'd':
+			case'D':
+				numD++;
+				break;
+			case'f':
+			case'F':
+				numF++;
+				break;
+			default:
+				printf("錯誤訊息\n");
+				break;
+		}
+	}
+	printf("等第數量統計結果：\n");
+	printf("A、a的數量%d：\n", numA);
+	printf("B、b的數量%d：\n", numB);
+	printf("C、c的數量%d：\n", numC);
+	printf("D、d的數量%d：\n", numD);
+	printf("F、f的數量%d：\n", numF);
+	return 0;
+}
