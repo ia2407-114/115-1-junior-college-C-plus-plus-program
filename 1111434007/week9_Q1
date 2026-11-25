@@ -1,0 +1,46 @@
+#include <stdio.h>
+
+void print_func(int[], float[], float[], float[], int);
+
+int main()
+{
+    int id[50];
+    int i = 0;
+    int count = 0;
+    float math[50], english[50], avg[50];
+
+    for (i = 0; i < 50; i++)
+    {
+        printf("請輸入學號(輸入999停止):");
+        scanf_s("%d", &id[i]);
+        if (id[i] != 999)
+        {
+            printf("請輸入數學成績:");
+            scanf_s("%f", &math[i]);
+
+            printf("請輸入英文成績:");
+            scanf_s("%f", &english[i]);
+            avg[i] = (math[i] + english[i]) / 2;
+            count++;
+        }
+        else
+        {
+            i = 50;
+        }
+    }
+
+    print_func(id, math, english, avg, count);
+
+    return 0;
+}
+
+void print_func(int id[], float math[], float eng[], float avg[], int count)
+{
+    printf("學號\t數學\t英文\t平均\n");
+
+    for (int j = 0; j < count; j++)
+    {
+        printf("%d\t%f\t%f\t%f\n",
+            id[j], math[j], eng[j], avg[j]);
+    }
+}
