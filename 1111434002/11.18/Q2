@@ -1,0 +1,56 @@
+# include<stdio.h>
+#define STU 10 
+#define SCORE 3  
+int linear_search(int students[][SCORE], int n, int stuid);
+int main(void)
+{
+    int stuid;
+    int flag;
+    int students[STU][SCORE] =
+    {
+        {1, 85, 90},
+        {2, 72, 68},
+        {3, 95, 88},
+        {4, 60, 75},
+        {5, 88, 92},
+        {6, 55, 64},
+        {7, 79, 81},
+        {8, 91, 94},
+        {9, 67, 70},
+        {10, 83, 86}
+    };
+    printf("學號/數學/英文\n");
+    for (int i = 0; i < STU; i++)
+    {
+        printf("%d / %d / %d\n", students[i][0], students[i][1], students[i][2]);
+    }
+    printf("請輸入搜尋學生學號：\n");
+    scanf_s("%d", &stuid);
+    flag = linear_search(students, STU, stuid);
+    if (flag == 1)
+    {
+
+        for (int i = 0; i < STU; i++)
+        {
+            if ((students[i][0] == stuid))
+            {
+                printf("找到資訊！學號%d、數學%d、英文%d", students[i][0], students[i][1], students[i][2]);
+            }
+        }
+    }
+    else
+    {
+        printf("找不到資料訊息");
+    }
+    
+    return 0;
+}
+int linear_search(int students[][SCORE], int n, int stuid)
+{
+    for (int i = 0; i < n; i++)
+    {
+        if (students[i][0] == stuid)
+            return 1;
+    }
+    return 0;
+}
