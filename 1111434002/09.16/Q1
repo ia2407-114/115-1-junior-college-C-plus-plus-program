@@ -1,0 +1,18 @@
+#include <stdio.h>
+int main()
+{
+	int num = 0, nnum = 0, sum = 0;
+	printf("請輸入第一個整數：\n");
+	scanf_s("%d", &num);
+	printf("請輸入第二個整數：\n");
+	scanf_s("%d", &nnum);
+	sum = num + nnum;
+	printf("%d+%d=%d\n",num,nnum,sum);
+	sum = num - nnum;
+	printf("%d-%d=%d\n", num, nnum, sum);
+	sum = num * nnum;
+	printf("%d*%d=%d\n", num, nnum, sum);
+	sum = num / nnum;
+	printf("%d/%d=%d\n", num, nnum, sum);
+	return 0;
+};
