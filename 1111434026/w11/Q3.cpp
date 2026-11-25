@@ -14,6 +14,7 @@ int main(){
     { 91, 82, 88 },
     { 10, 78, 80 }
     };
+    printf("%10s %10s %10s\n", "學號", "數學", "英文");
     for (int i = 0; i < n; ++i) {
         printf_s("%10d %10d %10d\n", students[i][0], students[i][1], students[i][2]);
     }
@@ -65,6 +66,7 @@ void sort_array(int s[10][3], int number, int t) {
             }
         }
     }
+    printf("%10s %10s %10s\n", "學號", "數學", "英文");
     for (int i = 0; i < n; ++i) {
         printf_s("%10d %10d %10d\n", s[i][0], s[i][1], s[i][2]);
     }
