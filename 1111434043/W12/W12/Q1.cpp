@@ -6,7 +6,7 @@
 #define TALL 10
 #define FAT 3
 void sort_array(int [][FAT], int, int);//°}¦C¡B¸ê®Æ¦C(µ§)¼Æ»P¤@­ÓºX¼Ð(0:¥Ñ¤j¨ì¤p¡A1: ¥Ñ¤p¨ì¤j)
-void binary_search(int [][FAT],int,int,int);//°}¦C¡Bkey¡Blow¡B high
+int binary_search(int [][FAT],int,int,int);//°}¦C¡Bkey¡Blow¡B high
 int main() {
 	int k = 0;
 	int find = 0;
@@ -19,25 +19,33 @@ int main() {
 	}
 	printf("¿é¤JºX¼Ð(0:¥Ñ¤j¨ì¤p¡A1: ¥Ñ¤p¨ì¤j)\n");
 	scanf_s("%d", &k);
-	sort_array(st, TALL, k);		
-
+	sort_array(st, TALL, k);			
 	printf("¿é¤J§A­n·j´Mªºkey\n");
 	scanf_s("%d", &find);
-	left = st[0][0];
-	right = st[TALL - 1][0];
-	//binary_search(st, find, left, right);
-
+	left = 0;
+	right = TALL - 1;
+	int count = binary_search(st, find, left, right);
+	if (count == 1) { //¦³§ä¨ì
+		printf("§ä¨ì¤F\n");
+		for (int i = 0;i < TALL;i++) {
+			if (st[i][0] == find) {
+				printf("¾Ç¸¹:%d\t¼Æ¾Ç¦¨ÁZ%d\t¡B­^¤å¦¨ÁZ%d\n\n", st[i][0], st[i][1], st[i][2]);
+			}
+		}
+	}
+	else if (count == 0) {
+		printf("§ä¤£¨ì\n\n");
+	}
 	printf("±Æ§Ç«á¸ê®Æ:\n");
 	for (int i = 0;i < TALL;i++) {
 		printf("¾Ç¸¹:%d\t¡B¼Æ¾Ç¦¨ÁZ:%d\t¡B­^¤å¦¨ÁZ:%d\n", st[i][0], st[i][1], st[i][2]);
 	}
-	
 }
 void sort_array(int data[][FAT], int len, int cc) {//°}¦C¡B¸ê®Æ¦C(µ§)¼Æ»P¤@­ÓºX¼Ð(0:¥Ñ¤j¨ì¤p¡A1: ¥Ñ¤p¨ì¤j)
 	int tmp[1][3] = { 0,0,0 };
 	if (cc == 0) { //0:¥Ñ¤j¨ì¤p
-		for (int i = 0;i < TALL;i++) {
-			for (int j = 0;j < len - i;j++) {
+		for (int i = 0;i < len;i++) {
+			for (int j = 0;j < len - i-1;j++) {
 				if (data[j][0] < data[j+1][0]) {
 					tmp[0][0] = data[j][0];
 					data[j][0] = data[j + 1][0];
@@ -54,11 +62,10 @@ void sort_array(int data[][FAT], int len, int cc) {//°}¦C¡B¸ê®Æ¦C(µ§)¼Æ»P¤@­ÓºX¼
 				}
 			}
 		}
-
 	}
 	else if (cc == 1) {//1: ¥Ñ¤p¨ì¤j
-		for (int i = 0;i < TALL;i++) {
-			for (int j = 0;j < len - i;j++) {
+		for (int i = 0;i < len;i++) {
+			for (int j = 0;j < len - i-1;j++) {
 				if (data[j][0] > data[j + 1][0]) {
 					tmp[0][0] = data[j][0];
 					data[j][0] = data[j + 1][0];
@@ -71,16 +78,44 @@ void sort_array(int data[][FAT], int len, int cc) {//°}¦C¡B¸ê®Æ¦C(µ§)¼Æ»P¤@­ÓºX¼
 					tmp[0][2] = data[j][2];
 					data[j][2] = data[j + 1][2];
 					data[j + 1][2] = tmp[0][2];
-
 				}
 			}
 		}
-
 	}
-
 }
 
-void binary_search(int data[][FAT],int key,int low,int high) {//°}¦C¡Bkey¡Blow¡B high
-	
+int binary_search(int data[][FAT],int key,int low,int high) {//°}¦C¡Bkey¡Blow¡B high
+	int mid = 0;
+	if (data[0][0] > data[1][0]) {
+		while (low <= high) {
+			mid = (low + high) / 2;
+			if (data[mid][0] == key) {
+				return 1;
+			}
+			else if (data[mid][0] > key) {//¦b¥kÃä				
+				low = mid + 1;
+			}
+			else if (data[mid][0] < key) { //¦b¥ªÃä
+				high = mid - 1;
+			}
 
+
+		}
+		return 0;
+	}
+	else {
+		while (low <= high) {
+			mid = (low + high) / 2;
+			if (data[mid][0] == key) {
+				return 1;
+			}
+			else if (data[mid][0] > key) {//¦b¥ªÃä
+				high = mid - 1;
+			}
+			else if (data[mid][0] < key) { //¦b¥kÃä
+				low = mid + 1;
+			}
+		}
+		return 0;
+	}	
 }
